@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  --surface: #f8f7f4;
+  --card: #ffffff;
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --accent: #6b4f3a;
+  --title: #3a2418;
+  --font-geist-sans: "Inter";
+  --font-sora: "Sora";
+  --font-geist-mono: "Geist Mono";
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-title: var(--title);
+  --font-sans: var(--font-geist-sans);
+  --font-heading: var(--font-sora);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
