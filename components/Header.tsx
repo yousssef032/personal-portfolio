@@ -56,15 +56,6 @@ export function Header() {
 
     if (shell && logo && linksEl && heroSection) {
       ctx = gsap.context(() => {
-        const isDesktop = window.innerWidth >= 1024;
-        const ringPinDistance = 750;
-        const shrinkStart = isDesktop
-          ? `top top-=${ringPinDistance + 30}`
-          : "top top+=24";
-        const shrinkEnd = isDesktop
-          ? `top top-=${ringPinDistance + 280}`
-          : "top top-=240";
-
         const getFinalWidthPx = () => {
           const logoWidth = logo.offsetWidth;
           const linksWidth = linksEl.offsetWidth;
@@ -76,31 +67,44 @@ export function Header() {
           return Math.min(Math.ceil(target), maxAllowed);
         };
 
-        gsap.set(shell, {
-          width: "min(82rem, calc(100vw - 4rem))",
-          borderRadius: "0.75rem",
-          backgroundColor: "rgba(255,255,255,0)",
-          borderColor: "rgba(0,0,0,0)",
-          boxShadow: "0 0 0 rgba(0,0,0,0)",
-        });
-
-        gsap.to(shell, {
+        const compactStyles = {
           width: () => `${getFinalWidthPx()}px`,
           borderRadius: "9999px",
           backgroundColor: "rgba(255,255,255,0.72)",
           borderColor: "rgba(0,0,0,0.06)",
           boxShadow: "0 10px 22px rgba(31,41,55,0.12)",
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroSection,
-            start: shrinkStart,
-            end: shrinkEnd,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+        };
 
         gsap.set([logo, linksEl], { x: 0 });
+
+        ScrollTrigger.matchMedia({
+          "(min-width: 1024px)": () => {
+            const ringPinDistance = 980;
+
+            gsap.set(shell, {
+              width: "min(82rem, calc(100vw - 4rem))",
+              borderRadius: "0.75rem",
+              backgroundColor: "rgba(255,255,255,0)",
+              borderColor: "rgba(0,0,0,0)",
+              boxShadow: "0 0 0 rgba(0,0,0,0)",
+            });
+
+            gsap.to(shell, {
+              ...compactStyles,
+              ease: "none",
+              scrollTrigger: {
+                trigger: heroSection,
+                start: `top top-=${ringPinDistance}`,
+                end: `top top-=${ringPinDistance + 800}`,
+                scrub: 3,
+                invalidateOnRefresh: true,
+              },
+            });
+          },
+          "(max-width: 1023px)": () => {
+            gsap.set(shell, compactStyles);
+          },
+        });
       }, shell);
     }
 
@@ -117,25 +121,25 @@ export function Header() {
   };
 
   return (
-    <div className="fixed left-1/2 top-6 z-50 -translate-x-1/2">
+    <div className="fixed left-1/2 top-4 z-50 -translate-x-1/2 sm:top-6">
       <nav
         id="navbar-shell"
         ref={shellRef}
-        className="flex items-center justify-between gap-6 border border-transparent px-6 py-3 shadow-none backdrop-blur-md"
+        className="flex items-center justify-between gap-4 border border-transparent px-4 py-2.5 shadow-none backdrop-blur-md sm:gap-6 sm:px-6 sm:py-3"
       >
         <button
           id="navbar-logo"
           ref={logoRef}
           type="button"
           onClick={() => scrollTo("top")}
-          className="text-2xl font-bold leading-none tracking-[-0.03em] text-title"
+          className="text-xl font-bold leading-none tracking-[-0.03em] text-title sm:text-2xl"
         >
           <span id="navbar-logo-text">
             YE
           </span>
         </button>
 
-        <div ref={linksRef} className="flex gap-5">
+        <div ref={linksRef} className="flex gap-3 sm:gap-5">
           {links.map((link) => (
             <button
               key={link.id}

@@ -18,52 +18,82 @@ function registerScrollTrigger() {
 
 const floatingPreviews = [
   {
-    src: "/projects/app-1.svg",
-    alt: "Project preview one",
+    src: "/projects/ring-feature.png",
+    alt: "Featured project preview",
     size: "h-32 w-32",
     x: 0,
-    y: -236,
-    tilt: -8,
+    y: -258,
+    tilt: -4,
+    fit: "cover",
+    zoom: "scale-[1]",
+    position: "center",
+    offset: "translate-x-0",
+    chrome: "none",
   },
   {
     src: "/projects/app-2.svg",
     alt: "Project preview two",
     size: "h-32 w-32",
-    x: 204,
-    y: -118,
-    tilt: 7,
+    x: 224,
+    y: -130,
+    tilt: 4,
+    fit: "cover",
+    zoom: "scale-100",
+    position: "center",
+    offset: "translate-x-0",
+    chrome: "ring",
   },
   {
-    src: "/projects/app-3.svg",
-    alt: "Project preview three",
+    src: "/projects/ring-third.png",
+    alt: "Third featured project preview",
     size: "h-32 w-32",
-    x: 204,
-    y: 118,
-    tilt: -10,
+    x: 224,
+    y: 130,
+    tilt: 0,
+    fit: "cover",
+    zoom: "scale-[1.3]",
+    position: "center",
+    offset: "translate-x-0",
+    chrome: "ring",
   },
   {
     src: "/projects/app-2.svg",
     alt: "Project preview four",
     size: "h-32 w-32",
     x: 0,
-    y: 236,
-    tilt: 9,
+    y: 258,
+    tilt: 5,
+    fit: "cover",
+    zoom: "scale-100",
+    position: "center",
+    offset: "translate-x-0",
+    chrome: "ring",
   },
   {
-    src: "/projects/app-3.svg",
-    alt: "Project preview six",
+    src: "/projects/ring-aws.png",
+    alt: "AWS console project preview",
     size: "h-32 w-32",
-    x: -204,
-    y: 118,
-    tilt: 8,
+    x: -224,
+    y: 130,
+    tilt: 4,
+    fit: "cover",
+    zoom: "scale-[1.8]",
+    position: "center",
+    offset: "-translate-x-[-15%]",
+    chrome: "ring",
   },
   {
-    src: "/projects/app-2.svg",
-    alt: "Project preview seven",
+    src: "/projects/ring-cv.png",
+    alt: "Computer vision project preview",
     size: "h-32 w-32",
-    x: -204,
-    y: -118,
-    tilt: -9,
+    x: -224,
+    y: -130,
+    tilt: -5,
+    fit: "cover",
+    zoom: "scale-100",
+    position: "center",
+    offset: "translate-x-0",
+    chrome: "ring",
   },
 ] as const;
 
@@ -91,6 +121,10 @@ export function Hero() {
     const ctx = gsap.context(() => {
       gsap.set(ringTrack, { transformOrigin: "50% 50%", willChange: "transform" });
       const circles = gsap.utils.toArray<HTMLElement>(".hero-float", floatingWrap);
+      const circleMedia = gsap.utils.toArray<HTMLElement>(
+        ".hero-float-media",
+        floatingWrap
+      );
 
       const highlightLeftCircle = () => {
         if (!circles.length) return;
@@ -112,7 +146,7 @@ export function Hero() {
 
         circles.forEach((circle) => {
           gsap.to(circle, {
-            scale: circle === activeCircle ? 1.3 : 1,
+            scale: circle === activeCircle ? 1.2 : 1,
             duration: 0.2,
             ease: "power2.out",
             overwrite: "auto",
@@ -122,43 +156,49 @@ export function Hero() {
 
       ScrollTrigger.matchMedia({
         "(max-width: 1023px)": () => {
-          const mobileTrigger = {
-            trigger: floatingWrap,
-            start: "top 92%",
-            end: "bottom top",
-            scrub: 1.1,
+          const mobileScrollTrigger = {
+            trigger: section,
+            start: "top top",
+            end: "+=900",
+            pin: section,
+            pinSpacing: true,
+            scrub: 1.2,
+            anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: highlightLeftCircle,
             onRefresh: highlightLeftCircle,
           };
-          const mobileCircleTrigger = {
-            trigger: floatingWrap,
-            start: "top 92%",
-            end: "bottom top",
-            scrub: 1.1,
-            invalidateOnRefresh: true,
-          };
 
-          gsap.to(ringTrack, {
-            rotate: 220,
-            ease: "none",
-            scrollTrigger: mobileTrigger,
+          const mobileTl = gsap.timeline({
+            scrollTrigger: mobileScrollTrigger,
           });
 
-          circles.forEach((circle) => {
-            gsap.to(circle, {
-              rotate: -220,
+          mobileTl.to(
+            ringTrack,
+            {
+              rotate: 220,
               ease: "none",
-              scrollTrigger: mobileCircleTrigger,
-            });
+            },
+            0
+          );
+
+          circleMedia.forEach((media) => {
+            mobileTl.to(
+              media,
+              {
+                rotate: -220,
+                ease: "none",
+              },
+              0
+            );
           });
         },
         "(min-width: 1024px)": () => {
-          const desktopTrigger = {
+          const desktopPinTrigger = {
             trigger: section,
             start: "top top",
-            end: "+=950",
-            scrub: 1.4,
+            end: "+=2000",
+            scrub: 1,
             pin: section,
             pinSpacing: true,
             anticipatePin: 1,
@@ -166,10 +206,10 @@ export function Hero() {
             onUpdate: highlightLeftCircle,
             onRefresh: highlightLeftCircle,
           };
-          const desktopCircleTrigger = {
+          const desktopRotateTrigger = {
             trigger: section,
             start: "top top",
-            end: "+=950",
+            end: "+=980",
             scrub: 1.4,
             invalidateOnRefresh: true,
           };
@@ -177,16 +217,20 @@ export function Hero() {
           gsap.to(ringTrack, {
             rotate: 220,
             ease: "none",
-            scrollTrigger: desktopTrigger,
+            scrollTrigger: desktopRotateTrigger,
           });
 
-          circles.forEach((circle) => {
-            gsap.to(circle, {
+          circleMedia.forEach((media) => {
+            gsap.to(media, {
               rotate: -220,
               ease: "none",
-              scrollTrigger: desktopCircleTrigger,
+              scrollTrigger: desktopRotateTrigger,
             });
           });
+
+          // Keep the hero pinned after ring rotation so the next section
+          // can fully overlay before normal document scrolling resumes.
+          ScrollTrigger.create(desktopPinTrigger);
         },
       });
     }, contentRef);
@@ -198,34 +242,34 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="relative overflow-visible border-b border-black/[0.06] bg-surface pb-24 pt-20 sm:pb-28 sm:pt-24 lg:pb-32 lg:pt-28"
+      className="relative overflow-visible border-b border-black/[0.06] bg-surface pb-16 pt-24 sm:pb-24 sm:pt-28 lg:pb-16 lg:pt-28"
     >
       <div
         aria-hidden
         className="pointer-events-none absolute -left-20 top-0 h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(107,79,58,0.14),rgba(107,79,58,0.06),transparent_72%)] blur-3xl sm:h-[36rem] sm:w-[36rem]"
       />
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
-          <div ref={contentRef} className="relative min-w-0 lg:-translate-y-16">
-            <h1 className="max-w-4xl text-5xl font-bold tracking-[-0.03em] text-title sm:text-6xl lg:text-[4.25rem] lg:leading-[0.95]">
+        <div className="grid items-center gap-6 sm:gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(500px,640px)]">
+          <div
+            ref={contentRef}
+            className="relative min-w-0 text-center lg:text-left lg:-translate-y-36"
+          >
+            <h1 className="text-3xl font-bold tracking-[-0.03em] text-title sm:text-4xl lg:max-w-2xl lg:text-[3rem] lg:leading-[0.98]">
               {site.name}
             </h1>
-            {/* <p className="mt-3 max-w-3xl text-lg font-medium text-title/90 sm:text-xl">
-              {site.title}
-            </p> */}
-            <p className="mt-7 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
+            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted sm:text-[15px] lg:mx-0 lg:mt-5 lg:max-w-sm">
               {site.description}
             </p>
-            <div className="mt-12 flex flex-wrap items-center gap-5">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-7 lg:mt-8 lg:justify-start lg:gap-4">
               <a
                 href="#work"
-                className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(58,36,24,0.22)] transition hover:scale-[1.02] hover:bg-accent/90"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(58,36,24,0.22)] transition hover:scale-[1.02] hover:bg-accent/90"
               >
-                View Selected Work
+                Builds
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center rounded-full border border-black/[0.12] bg-card px-7 py-3.5 text-sm font-semibold text-ink transition hover:border-accent/40 hover:text-accent"
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-black/[0.12] bg-card px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent/40 hover:text-accent"
               >
                 Get in touch
               </a>
@@ -234,14 +278,12 @@ export function Hero() {
 
           <div
             ref={floatingWrapRef}
-            className="relative -translate-y-7 mt-0 h-[28rem] w-full overflow-hidden pt-0 sm:h-[32rem] sm:pt-0 lg:-ml-40 lg:-translate-y-12 lg:h-[44rem] lg:overflow-visible lg:pt-0"
+            className="relative mt-2 h-[24rem] w-full overflow-visible sm:mt-0 sm:h-[30rem] lg:-ml-8 lg:-translate-y-32 lg:h-[54rem]"
             aria-hidden
           >
-            <div
-              className="relative mx-auto h-[28rem] w-[28rem] scale-[0.76] sm:h-[34rem] sm:w-[34rem] sm:scale-[0.84] lg:h-[42rem] lg:w-[42rem] lg:scale-100"
-            >
+            <div className="relative mx-auto h-[24rem] w-[24rem] scale-[0.62] sm:h-[34rem] sm:w-[34rem] sm:scale-[0.82] lg:h-[54rem] lg:w-[54rem] lg:scale-100">
               <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-8 text-center">
-                <p className="text-sm font-semibold text-title/80">
+                <p className="text-xs font-semibold text-title/80 sm:text-sm">
                   Mobile & Full-Stack Engineer | Tech Lead
                 </p>
               </div>
@@ -249,17 +291,26 @@ export function Hero() {
               {floatingPreviews.map((preview, index) => (
                 <div
                   key={`${preview.src}-${index}`}
-                  className={`hero-float absolute left-1/2 top-1/2 ${preview.size} rounded-full shadow-[0_12px_28px_rgba(31,41,55,0.16)] ring-1 ring-black/[0.08] transition-transform duration-300 hover:scale-105`}
+                  className={`hero-float absolute left-1/2 top-1/2 ${preview.size} overflow-hidden rounded-full shadow-[0_6px_14px_rgba(31,41,55,0.10)] transition-transform duration-300 hover:scale-105 ${
+                    preview.chrome === "none" ? "" : "ring-1 ring-black/[0.04]"
+                  }`}
                   style={{
                     transform: `translate(calc(-50% + ${preview.x}px), calc(-50% + ${preview.y}px)) rotate(${preview.tilt}deg)`,
                   }}
                 >
-                  <img
-                    src={preview.src}
-                    alt={preview.alt}
-                    className="h-full w-full rounded-full object-cover"
-                    loading="lazy"
-                  />
+                  <div className="hero-float-media h-full w-full">
+                    <div
+                      className={`hero-float-zoom h-full w-full transition-transform duration-300 ${preview.zoom} ${preview.offset}`}
+                    >
+                      <img
+                        src={preview.src}
+                        alt={preview.alt}
+                        className="h-full w-full rounded-full object-cover"
+                        style={{ objectPosition: preview.position }}
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
                 </div>
               ))}
               </div>

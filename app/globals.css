@@ -28,6 +28,12 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   background-color: var(--surface);
   color: var(--ink);
@@ -43,4 +49,16 @@ h3 {
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1;
+}
+
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

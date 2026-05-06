@@ -1,5 +1,5 @@
 export const site = {
-  name: "YOUSSEF ELSHOHARY",
+  name: "YOUSSEF ElSHOHARY",
   title: "Mobile & Full-Stack Engineer | Tech Lead",
   description:
     "I build high-quality mobile applications, scalable backend systems, and AI-powered solutions, with experience deploying on AWS.",
