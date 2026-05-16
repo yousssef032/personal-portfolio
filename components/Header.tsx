@@ -82,8 +82,8 @@ export function Header() {
             const ringPinDistance = 980;
 
             gsap.set(shell, {
-              width: "min(82rem, calc(100vw - 4rem))",
-              borderRadius: "0.75rem",
+              width: "calc(100vw - 2 * var(--ed-pad))",
+              borderRadius: "0px",
               backgroundColor: "rgba(255,255,255,0)",
               borderColor: "rgba(0,0,0,0)",
               boxShadow: "0 0 0 rgba(0,0,0,0)",
@@ -132,7 +132,7 @@ export function Header() {
           ref={logoRef}
           type="button"
           onClick={() => scrollTo("top")}
-          className="text-xl font-bold leading-none tracking-[-0.03em] text-title sm:text-2xl"
+          className="font-display-title text-xl font-normal leading-none tracking-[-0.03em] text-title sm:text-2xl"
         >
           <span id="navbar-logo-text">
             YE

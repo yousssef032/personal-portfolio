@@ -23,25 +23,23 @@ const links = [
 
 export function ContactSection() {
   return (
-    <div className="rounded-2xl border border-black/[0.06] bg-card p-8 shadow-sm sm:p-10">
-      <div className="grid gap-8 sm:grid-cols-3 sm:gap-6">
-        {links.map((link) => (
-          <div key={link.label} className="flex flex-col gap-1">
-            <span className="text-xs font-semibold uppercase tracking-wide text-muted">
-              {link.label}
-            </span>
-            <a
-              href={link.href}
-              {...(link.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-              className="text-base font-medium text-ink underline-offset-4 transition hover:text-accent hover:underline"
-            >
-              {link.display}
-            </a>
-          </div>
-        ))}
-      </div>
+    <div className="grid gap-0 sm:grid-cols-3 border-t border-black/[0.08]">
+      {links.map((link) => (
+        <div key={link.label} className="py-8 sm:pr-8 border-b sm:border-b-0 sm:border-r border-black/[0.08] last:border-0 flex flex-col gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-muted/70">
+            {link.label}
+          </span>
+          <a
+            href={link.href}
+            {...(link.external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+            className="text-base font-medium text-ink border-b border-current pb-0.5 w-fit hover:opacity-60 transition-opacity"
+          >
+            {link.display}
+          </a>
+        </div>
+      ))}
     </div>
   );
 }

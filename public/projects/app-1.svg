@@ -4,8 +4,8 @@
   <rect x="248" y="120" width="304" height="640" rx="20" fill="#F3F4F6"/>
   <rect x="268" y="160" width="264" height="36" rx="8" fill="#E5E7EB"/>
   <rect x="268" y="216" width="200" height="20" rx="6" fill="#E5E7EB"/>
-  <rect x="268" y="260" width="264" height="120" rx="16" fill="#EDE4DC"/>
-  <rect x="268" y="400" width="264" height="56" rx="12" fill="#6B4F3A"/>
+  <rect x="268" y="260" width="264" height="120" rx="16" fill="#E5E7EB"/>
+  <rect x="268" y="400" width="264" height="56" rx="12" fill="#000000"/>
   <rect x="268" y="480" width="120" height="120" rx="16" fill="#FFFFFF" stroke="#E5E7EB"/>
   <rect x="412" y="480" width="120" height="120" rx="16" fill="#FFFFFF" stroke="#E5E7EB"/>
   <circle cx="400" cy="900" r="6" fill="#D1D5DB"/>

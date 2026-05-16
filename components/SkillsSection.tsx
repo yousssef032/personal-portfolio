@@ -2,19 +2,16 @@ import { skillGroups } from "@/lib/site-content";
 
 export function SkillsSection() {
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
+    <div className="grid gap-12 sm:grid-cols-2">
       {skillGroups.map((group) => (
-        <div
-          key={group.label}
-          className="rounded-2xl border border-black/[0.06] bg-card p-6 shadow-sm sm:p-7"
-        >
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">
+        <div key={group.label}>
+          <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-muted border-b border-black/[0.1] pb-3 mb-6">
             {group.label}
           </h3>
-          <ul className="mt-4 flex flex-wrap gap-2">
+          <ul className="flex flex-wrap gap-2">
             {group.items.map((skill) => (
               <li key={skill}>
-                <span className="inline-flex rounded-lg bg-surface px-3 py-1.5 text-sm font-medium text-ink ring-1 ring-black/[0.05]">
+                <span className="inline-flex border border-black/[0.12] px-3 py-1.5 text-sm font-medium text-ink">
                   {skill}
                 </span>
               </li>

@@ -22,31 +22,51 @@ export function Section({
   return (
     <section
       id={id}
-      className={`reveal scroll-mt-24 py-16 sm:py-20 lg:py-24 ${className}`}
+      className={`reveal scroll-mt-24 ${className}`}
     >
-      <div
-        className={
-          fullWidth ? "w-full" : "mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"
-        }
-      >
-        {hideHeader ? null : (
-          <header className="max-w-2xl">
+      {hideHeader ? null : (
+        <div
+          className="editorial-grid"
+          style={{
+            paddingBlockStart: "clamp(48px, 7vw, 120px)",
+            paddingBlockEnd: "clamp(24px, 3vw, 56px)",
+          }}
+        >
+          <div className="col-span-12 lg:col-span-7">
             {eyebrow ? (
-              <p className="text-sm font-medium uppercase tracking-wider text-accent">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-muted mb-5">
                 {eyebrow}
               </p>
             ) : null}
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-title sm:text-3xl">
+            <h2
+              style={{
+                fontSize: "clamp(2.25rem, 4.5vw, 5.5rem)",
+                lineHeight: 0.92,
+                letterSpacing: "-0.03em",
+              }}
+              className="font-normal text-title"
+            >
               {title}
             </h2>
-            {description ? (
-              <p className="mt-3 text-base leading-relaxed text-muted sm:text-lg">
+          </div>
+          {description ? (
+            <div className="col-span-12 lg:col-start-9 lg:col-span-4 flex items-end pt-6 lg:pt-0 pb-1">
+              <p className="text-[15px] leading-relaxed text-muted">
                 {description}
               </p>
-            ) : null}
-          </header>
-        )}
-        <div className={hideHeader ? "" : "mt-10 sm:mt-12"}>{children}</div>
+            </div>
+          ) : null}
+        </div>
+      )}
+      <div
+        className={
+          fullWidth
+            ? "w-full"
+            : "editorial-pad"
+        }
+        style={fullWidth ? undefined : { paddingBlockEnd: "clamp(48px, 7vw, 120px)" }}
+      >
+        {children}
       </div>
     </section>
   );
